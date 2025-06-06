@@ -8,6 +8,12 @@ import com.awrsp2.awrsp2.UserProfile.UserProfileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -133,8 +139,6 @@ public class ConsoleAppRunner implements CommandLineRunner {
         System.out.printf("Twoje zapotrzebowanie kaloryczne to: %.0f kcal%n", calories);
 
         double total = 0;
-        boolean goalReached = false;
-        boolean goalExceeded = false;
         List<Meal> eatenMeals = new ArrayList<>();
 
         while (true) {
@@ -175,8 +179,7 @@ public class ConsoleAppRunner implements CommandLineRunner {
                         total -= removed.getCalories();
                         System.out.printf("Usunięto: %s (%.0f kcal). Nowy bilans: %.0f / %.0f kcal%n",
                                 removed.getName(), removed.getCalories(), total, calories);
-                        goalReached = total >= calories && total < calories * 1.2;
-                        goalExceeded = total >= calories * 1.2;
+                        printGoalStatus(total, calories);
                     } else {
                         System.out.println("Nieprawidłowy numer.");
                     }
@@ -215,17 +218,7 @@ public class ConsoleAppRunner implements CommandLineRunner {
                 total += meal.getCalories();
                 System.out.printf("Dodano: %s (%.0f kcal). Łącznie zjedzono: %.0f / %.0f kcal%n",
                         meal.getName(), meal.getCalories(), total, calories);
-
-                if (total >= calories * 1.2 && !goalExceeded) {
-                    System.out.printf("❗ Przekroczyłeś cel o %.0f kcal. Za bardzo przekroczyłeś cel!%n", total - calories);
-                    goalExceeded = true;
-                } else if (total >= calories && !goalReached) {
-                    System.out.println("✅ Udało się spełnić cel kaloryczny! Możesz kontynuować dodawanie posiłków.");
-                    goalReached = true;
-                } else if (total < calories) {
-                    System.out.printf("Brakuje %.0f kcal do celu.%n", calories - total);
-                }
-
+                printGoalStatus(total, calories);
             } else {
                 System.out.println("Nie znaleziono posiłku.");
             }
@@ -238,7 +231,25 @@ public class ConsoleAppRunner implements CommandLineRunner {
             for (Meal m : eatenMeals) {
                 System.out.printf("- %s (%.0f kcal)%n", m.getName(), m.getCalories());
             }
-            System.out.printf("Łącznie: %.0f kcal%n", total);
+            System.out.printf("Łącznie: %.0f / %.0f kcal%n", total, calories);
+            printGoalStatus(total, calories);
+        }
+
+        try {
+            String logResult = exportLogToFile(user.getId(), eatenMeals, total, calories);
+            System.out.println(logResult);
+        } catch (IOException e) {
+            System.out.println("❌ Nie udało się zapisać dziennika posiłków: " + e.getMessage());
+        }
+    }
+
+    private void printGoalStatus(double total, double calories) {
+        if (total >= calories * 1.2) {
+            System.out.printf("❗ Przekroczono cel kaloryczny o %.0f kcal!%n", total - calories);
+        } else if (total >= calories) {
+            System.out.println("✅ Udało się osiągnąć cel kaloryczny!");
+        } else {
+            System.out.printf("❌ Brakuje %.0f kcal.%n", calories - total);
         }
     }
 
@@ -251,5 +262,36 @@ public class ConsoleAppRunner implements CommandLineRunner {
         if (bmi < 35.0) return "otyłość I stopnia";
         if (bmi < 40.0) return "otyłość II stopnia";
         return "otyłość III stopnia";
+    }
+
+    private String exportLogToFile(int userId, List<Meal> meals, double totalCalories, double goal) throws IOException {
+        StringBuilder content = new StringBuilder();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm");
+        DateTimeFormatter displayFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        content.append("Dziennik posiłków\n");
+        content.append("Data wygenerowania: ").append(displayFormat.format(now)).append("\n\n");
+
+        for (Meal m : meals) {
+            content.append("- ").append(m.getName()).append(" (").append(m.getCalories()).append(" kcal)\n");
+        }
+
+        content.append(String.format("\nŁącznie: %.0f / %.0f kcal\n", totalCalories, goal));
+
+        if (totalCalories < goal) {
+            content.append(String.format("❌ Nie osiągnięto celu. Brakuje %.0f kcal.\n", goal - totalCalories));
+        } else if (totalCalories <= goal * 1.2) {
+            content.append("✅ Udało się osiągnąć cel kaloryczny.\n");
+        } else {
+            content.append(String.format("❗ Przekroczono cel o %.0f kcal!\n", totalCalories - goal));
+        }
+
+        String filename = "log_" + fileFormat.format(now) + ".txt";
+        Path path = Paths.get("logs", filename);
+        Files.createDirectories(path.getParent());
+        Files.write(path, content.toString().getBytes());
+
+        return "✅ Zapisano dziennik do pliku: " + path.toAbsolutePath();
     }
 }

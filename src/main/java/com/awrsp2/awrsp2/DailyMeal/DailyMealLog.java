@@ -3,6 +3,8 @@ package com.awrsp2.awrsp2.DailyMeal;
 import com.awrsp2.awrsp2.Meal.Meal;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,16 @@ public class DailyMealLog {
     private int id;
 
     private int userId;
+
+    private LocalDate date;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     @ManyToMany
     private List<Meal> meals = new ArrayList<>();
