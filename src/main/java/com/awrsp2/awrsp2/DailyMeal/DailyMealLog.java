@@ -1,0 +1,54 @@
+package com.awrsp2.awrsp2.DailyMeal;
+
+import com.awrsp2.awrsp2.Meal.Meal;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@Entity
+public class DailyMealLog {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private int userId;
+
+    @ManyToMany
+    private List<Meal> meals = new ArrayList<>();
+
+    public DailyMealLog(int id, int userId, List<Meal> meals) {
+        this.id = id;
+        this.userId = userId;
+        this.meals = meals;
+    }
+
+    public DailyMealLog() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+    }
+}
