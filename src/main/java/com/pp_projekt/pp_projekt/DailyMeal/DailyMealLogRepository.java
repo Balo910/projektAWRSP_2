@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.DailyMeal;
+package com.pp_projekt.pp_projekt.DailyMeal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;

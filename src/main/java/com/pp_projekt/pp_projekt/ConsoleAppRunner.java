@@ -1,10 +1,10 @@
-package com.awrsp2.awrsp2;
+package com.pp_projekt.pp_projekt;
 
-import com.awrsp2.awrsp2.Meal.Meal;
-import com.awrsp2.awrsp2.Meal.MealRepository;
-import com.awrsp2.awrsp2.UserProfile.UserProfile;
-import com.awrsp2.awrsp2.UserProfile.UserProfileRepository;
-import com.awrsp2.awrsp2.UserProfile.UserProfileService;
+import com.pp_projekt.pp_projekt.Meal.Meal;
+import com.pp_projekt.pp_projekt.Meal.MealRepository;
+import com.pp_projekt.pp_projekt.UserProfile.UserProfile;
+import com.pp_projekt.pp_projekt.UserProfile.UserProfileRepository;
+import com.pp_projekt.pp_projekt.UserProfile.UserProfileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

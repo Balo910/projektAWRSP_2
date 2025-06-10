@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.Meal;
+package com.pp_projekt.pp_projekt.Meal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

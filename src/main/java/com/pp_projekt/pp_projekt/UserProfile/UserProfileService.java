@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.UserProfile;
+package com.pp_projekt.pp_projekt.UserProfile;
 import org.springframework.stereotype.Service;
 
 @Service

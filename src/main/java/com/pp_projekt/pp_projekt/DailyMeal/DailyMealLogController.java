@@ -1,7 +1,7 @@
-package com.awrsp2.awrsp2.DailyMeal;
-import com.awrsp2.awrsp2.Meal.Meal;
-import com.awrsp2.awrsp2.Meal.MealRepository;
-import com.awrsp2.awrsp2.UserProfile.UserProfileRepository;
+package com.pp_projekt.pp_projekt.DailyMeal;
+import com.pp_projekt.pp_projekt.Meal.Meal;
+import com.pp_projekt.pp_projekt.Meal.MealRepository;
+import com.pp_projekt.pp_projekt.UserProfile.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

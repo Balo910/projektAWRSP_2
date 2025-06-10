@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.UserProfile;
+package com.pp_projekt.pp_projekt.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

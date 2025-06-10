@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.Meal;
+package com.pp_projekt.pp_projekt.Meal;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

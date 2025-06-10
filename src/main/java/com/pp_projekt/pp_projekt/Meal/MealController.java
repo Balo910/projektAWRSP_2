@@ -1,4 +1,4 @@
-package com.awrsp2.awrsp2.Meal;
+package com.pp_projekt.pp_projekt.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

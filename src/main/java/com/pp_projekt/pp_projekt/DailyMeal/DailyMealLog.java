@@ -1,6 +1,6 @@
-package com.awrsp2.awrsp2.DailyMeal;
+package com.pp_projekt.pp_projekt.DailyMeal;
 
-import com.awrsp2.awrsp2.Meal.Meal;
+import com.pp_projekt.pp_projekt.Meal.Meal;
 import jakarta.persistence.*;
 import lombok.Data;
 

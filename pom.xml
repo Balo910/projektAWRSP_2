@@ -8,10 +8,10 @@
 		<version>3.4.2</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.awrsp2</groupId>
-	<artifactId>awrsp2</artifactId>
+	<groupId>com.pp_projekt</groupId>
+	<artifactId>pp_projekt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>awrsp2</name>
+	<name>pp_projekt</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -63,6 +63,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>
